@@ -31,7 +31,6 @@ class BookRepositoryImpl : BookRepository {
     override suspend fun addBook(book: BookModel): BookModel =
         dbQuery {
             val bookId: Int = Books.insert { insertStatement ->
-                insertStatement[id] = book.id
                 insertStatement[title] = book.title
                 insertStatement[author] = book.author
             }[Books.id]

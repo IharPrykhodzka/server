@@ -29,8 +29,7 @@ class DIBuilder(private val environment: ApplicationEnvironment) {
             }
 
             bind<BookRepositoryImpl>() with eagerSingleton { BookRepositoryImpl() }
-            bind<BookService>() with singleton { BookService(instance()) }
-
+            bind<BookService>() with eagerSingleton { BookService(instance()) }
             bind<RoutingV1>() with eagerSingleton { RoutingV1() }
         }
     }
