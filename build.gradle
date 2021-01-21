@@ -50,6 +50,9 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.14.0")
     implementation("commons-logging:commons-logging:1.2")
     implementation("ch.qos.logback:logback-classic:1.2.3")
+    implementation "io.ktor:ktor-auth:$ktor_version"
+    implementation "io.ktor:ktor-auth-jwt:$ktor_version"
+    implementation group: 'org.springframework.security', name: 'spring-security-crypto', version: '5.3.2.RELEASE'
 
     // Exposed ORM library
     implementation "org.jetbrains.exposed:exposed-core:0.28.1"
