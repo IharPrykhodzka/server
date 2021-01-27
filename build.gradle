@@ -7,7 +7,7 @@ plugins {
 }
 
 flyway {
-    url = "postgres://postgres:test@localhost:5432/bookdb"
+    url = "postgres://postgres:test@localhost:5432/tasks_db"
     user = "user"
     password = "password"
     baselineOnMigrate = true

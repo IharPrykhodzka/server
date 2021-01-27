@@ -2,7 +2,6 @@ package me.kvait.routes
 
 import io.ktor.auth.*
 import io.ktor.routing.*
-import me.kvait.routes.books
 
 class RoutingV1 {
 
@@ -12,7 +11,7 @@ class RoutingV1 {
                 users()
 
                 authenticate {
-                    books()
+                    tasks()
                 }
             }
         }
