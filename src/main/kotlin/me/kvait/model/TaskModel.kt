@@ -1,7 +1,8 @@
 package me.kvait.model
 
 data class TaskModel(
+    val id : Int,
     val title : String,
-    val author : String,
-    val createdDate : Long
+    val content : String,
+    val createdDate : String
 )

@@ -1,13 +1,10 @@
 package me.kvait.repository
 
-import org.jetbrains.exposed.sql.deleteWhere
-import org.jetbrains.exposed.sql.insert
-import org.jetbrains.exposed.sql.select
-import org.jetbrains.exposed.sql.selectAll
 import me.kvait.db.data.task.Tasks
 import me.kvait.db.data.task.toTask
 import me.kvait.db.dbQuery
 import me.kvait.model.TaskModel
+import org.jetbrains.exposed.sql.*
 
 class TaskRepositoryImpl : TaskRepository {
 
@@ -32,7 +29,8 @@ class TaskRepositoryImpl : TaskRepository {
         dbQuery {
             val taskId: Int = Tasks.insert { insertStatement ->
                 insertStatement[title] = task.title
-                insertStatement[author] = task.author
+                insertStatement[content] = task.content
+                insertStatement[createdDate] = task.createdDate
             }[Tasks.id]
 
             Tasks.select {
@@ -46,4 +44,18 @@ class TaskRepositoryImpl : TaskRepository {
             Tasks.deleteWhere { Tasks.id eq taskId }
         }
     }
+
+    override suspend fun updateTask(taskId: Int, task: TaskModel): TaskModel =
+        dbQuery {
+            Tasks.update { updateStatement ->
+                updateStatement[title] = task.title
+                updateStatement[content] = task.content
+                updateStatement[createdDate] = task.createdDate
+            }
+
+            Tasks.select {
+                Tasks.id eq taskId
+            }.single().toTask()
+        }
 }
+

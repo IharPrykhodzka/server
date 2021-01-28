@@ -4,7 +4,8 @@ import org.jetbrains.exposed.sql.ResultRow
 import me.kvait.model.TaskModel
 
 fun ResultRow.toTask() = TaskModel(
+    id = this[Tasks.id],
     title = this[Tasks.title],
-    author = this[Tasks.author],
+    content = this[Tasks.content],
     createdDate = this[Tasks.createdDate]
 )

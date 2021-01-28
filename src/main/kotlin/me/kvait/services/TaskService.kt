@@ -3,6 +3,7 @@ package me.kvait.services
 import io.ktor.features.*
 import me.kvait.dto.TaskRequestDto
 import me.kvait.dto.TaskResponseDto
+import me.kvait.model.TaskModel
 import me.kvait.repository.TaskRepository
 
 class TaskService(
@@ -13,8 +14,7 @@ class TaskService(
 
     suspend fun saveTask(reqTask: TaskRequestDto): TaskResponseDto {
         val task = repo.addTask(
-            TaskRequestDto.toModel(reqTask)
-        )
+            TaskRequestDto.toModel(reqTask))
         return TaskResponseDto.fromModel(task)
     }
 
@@ -28,6 +28,11 @@ class TaskService(
         val response = TaskResponseDto.fromModel(task)
         repo.deleteTask(taskId)
         return response
+    }
+
+    suspend fun updateTaskById(taskId: Int, taskRequestDto: TaskRequestDto): TaskResponseDto {
+        val task = repo.updateTask(taskId, TaskRequestDto.toModel(taskRequestDto))
+        return TaskResponseDto.fromModel(task)
     }
 }
 

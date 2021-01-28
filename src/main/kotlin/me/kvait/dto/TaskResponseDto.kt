@@ -1,17 +1,18 @@
 package me.kvait.dto
 
 import me.kvait.model.TaskModel
-import org.jetbrains.exposed.sql.Column
 
 data class TaskResponseDto(
+    val id : Int,
     val title : String,
-    val author : String,
-    val createdDate: Long
+    val content : String,
+    val createdDate: String
 ){
     companion object{
         fun fromModel(model: TaskModel) = TaskResponseDto(
+            id = model.id,
             title = model.title,
-            author = model.author,
+            content = model.content,
             createdDate = model.createdDate
         )
     }
