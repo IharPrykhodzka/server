@@ -50,6 +50,6 @@ fun Route.tasks() {
     post("task/{id}/update") {
         val taskRequest = call.receive<TaskRequestDto>()
         taskService.updateTaskById(id, taskRequest)
-        call.respond(HttpStatusCode.OK)
+        call.respond(HttpStatusCode.Accepted)
     }
 }
