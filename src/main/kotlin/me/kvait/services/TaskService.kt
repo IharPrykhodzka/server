@@ -30,8 +30,8 @@ class TaskService(
         return response
     }
 
-    suspend fun updateTaskById(taskId: Int, taskRequestDto: TaskRequestDto): TaskResponseDto {
-        val task = repo.updateTask(taskId, TaskRequestDto.toModel(taskRequestDto))
+    suspend fun updateTaskById(taskRequestDto: TaskRequestDto): TaskResponseDto {
+        val task = repo.updateTask(TaskRequestDto.toModel(taskRequestDto))
         return TaskResponseDto.fromModel(task)
     }
 }

@@ -45,16 +45,16 @@ class TaskRepositoryImpl : TaskRepository {
         }
     }
 
-    override suspend fun updateTask(taskId: Int, task: TaskModel): TaskModel =
+    override suspend fun updateTask(task: TaskModel): TaskModel =
         dbQuery {
-            Tasks.update { updateStatement ->
+            Tasks.update({Tasks.id eq task.id }){ updateStatement ->
                 updateStatement[title] = task.title
                 updateStatement[content] = task.content
                 updateStatement[createdDate] = task.createdDate
             }
 
             Tasks.select {
-                Tasks.id eq taskId
+                Tasks.id eq task.id
             }.single().toTask()
         }
 }
