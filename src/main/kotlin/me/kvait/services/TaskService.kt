@@ -3,18 +3,17 @@ package me.kvait.services
 import io.ktor.features.*
 import me.kvait.dto.TaskRequestDto
 import me.kvait.dto.TaskResponseDto
-import me.kvait.model.TaskModel
 import me.kvait.repository.TaskRepository
 
 class TaskService(
     val repo: TaskRepository
 ) {
 
-    suspend fun getTasks(): List<TaskResponseDto> = repo.getAllTasks().map(TaskResponseDto.Companion::fromModel)
+    suspend fun getTasks(userId: Int): List<TaskResponseDto> = repo.getAllByUserId(userId).map(TaskResponseDto.Companion::fromModel)
 
-    suspend fun saveTask(reqTask: TaskRequestDto): TaskResponseDto {
+    suspend fun saveTask(reqTask: TaskRequestDto, userId: Int): TaskResponseDto {
         val task = repo.addTask(
-            TaskRequestDto.toModel(reqTask))
+            TaskRequestDto.toModel(reqTask), userId)
         return TaskResponseDto.fromModel(task)
     }
 

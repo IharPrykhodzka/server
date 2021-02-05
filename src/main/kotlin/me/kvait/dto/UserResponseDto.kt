@@ -4,12 +4,12 @@ import me.kvait.model.UserModel
 
 class UserResponseDto(
     val id: Int,
-    val username: String
+    val email: String
 ) {
     companion object{
         fun fromModel(model: UserModel) = UserResponseDto(
             id = model.id,
-            username = model.username
+            email = model.email
         )
     }
 }

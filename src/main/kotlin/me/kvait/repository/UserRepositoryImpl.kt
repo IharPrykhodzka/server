@@ -1,6 +1,5 @@
 package me.kvait.repository
 
-import io.ktor.features.*
 import me.kvait.db.data.user.Users
 import me.kvait.db.data.user.toUser
 import me.kvait.db.dbQuery
@@ -20,7 +19,7 @@ class UserRepositoryImpl : UserRepository {
     override suspend fun addNewUser(model: UserModel) {
         dbQuery {
             Users.insert { insertStatement ->
-                insertStatement[username] = model.username
+                insertStatement[email] = model.email
                 insertStatement[password] = model.password
             }
         }
@@ -29,7 +28,7 @@ class UserRepositoryImpl : UserRepository {
     override suspend fun getByUsername(username: String): UserModel? =
         dbQuery {
             Users.select {
-                (Users.username eq username)
+                (Users.email eq username)
             }.singleOrNull()?.toUser()
         }
 

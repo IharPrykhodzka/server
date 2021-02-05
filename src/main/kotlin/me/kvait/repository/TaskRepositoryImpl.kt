@@ -8,13 +8,12 @@ import org.jetbrains.exposed.sql.*
 
 class TaskRepositoryImpl : TaskRepository {
 
-    override suspend fun getAllTasks(): List<TaskModel> =
+    override suspend fun getAllByUserId(userId: Int): List<TaskModel> =
         dbQuery {
-            Tasks.selectAll().toList().map {
+            Tasks.select { Tasks.user_id eq userId }.toList().map {
                 it.toTask()
             }
         }
-
 
     override suspend fun getById(taskId: Int): TaskModel? =
         dbQuery {
@@ -25,9 +24,10 @@ class TaskRepositoryImpl : TaskRepository {
         }
 
 
-    override suspend fun addTask(task: TaskModel): TaskModel =
+    override suspend fun addTask(task: TaskModel, userId: Int): TaskModel =
         dbQuery {
             val taskId: Int = Tasks.insert { insertStatement ->
+                insertStatement[user_id] = userId
                 insertStatement[title] = task.title
                 insertStatement[content] = task.content
                 insertStatement[createdDate] = task.createdDate
@@ -47,7 +47,7 @@ class TaskRepositoryImpl : TaskRepository {
 
     override suspend fun updateTask(task: TaskModel): TaskModel =
         dbQuery {
-            Tasks.update({Tasks.id eq task.id }){ updateStatement ->
+            Tasks.update({ Tasks.id eq task.id }) { updateStatement ->
                 updateStatement[title] = task.title
                 updateStatement[content] = task.content
                 updateStatement[createdDate] = task.createdDate

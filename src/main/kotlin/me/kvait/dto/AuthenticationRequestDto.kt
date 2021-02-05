@@ -3,6 +3,6 @@ package me.kvait.dto
 import javax.print.attribute.standard.JobOriginatingUserName
 
 class AuthenticationRequestDto(
-    val username: String,
+    val email: String,
     val password: String
 )

@@ -34,25 +34,25 @@ class UserService(
         val model = repo.getById(id) ?: throw NotFoundException()
         return UserResponseDto(
             id = model.id,
-            username = model.username
+            email = model.email
         )
     }
 
 
     suspend fun register(input: UserRegisterRequestDto): AuthenticationResponseDto =
         mutex.withLock {
-            if(repo.getByUsername(input.username) != null) {
+            if(repo.getByUsername(input.email) != null) {
                 throw UserExistsException("User exists!")
             }
 
             repo.addNewUser(
                 UserModel(
-                    username = input.username,
+                    email = input.email,
                     password = passwordEncoder.encode(input.password)
                 )
             )
 
-            val model = requireNotNull(repo.getByUsername(input.username))
+            val model = requireNotNull(repo.getByUsername(input.email))
 
             val token = tokenService.generate(model.id)
             AuthenticationResponseDto(model.id, token)
@@ -62,7 +62,7 @@ class UserService(
     suspend fun authenticate(input: AuthenticationRequestDto): AuthenticationResponseDto =
         mutex.withLock {
 
-            val model = repo.getByUsername(input.username) ?: throw NotFoundException()
+            val model = repo.getByUsername(input.email) ?: throw NotFoundException()
 
             if (!passwordEncoder.matches(input.password, model.password)) {
                 throw InvalidPasswordException("Wrong password")

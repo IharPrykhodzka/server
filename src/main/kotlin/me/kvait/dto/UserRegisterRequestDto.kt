@@ -1,6 +1,6 @@
 package me.kvait.dto
 
 data class UserRegisterRequestDto(
-    val username: String,
+    val email: String,
     val password: String
 )

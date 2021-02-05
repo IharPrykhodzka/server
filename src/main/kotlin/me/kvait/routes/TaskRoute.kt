@@ -28,7 +28,7 @@ fun Route.tasks() {
     val taskService by di().instance<TaskService>()
 
     get("tasks") {
-        val allTasks = taskService.getTasks()
+        val allTasks = taskService.getTasks(me!!.id)
         call.respond(allTasks)
     }
 
@@ -38,7 +38,7 @@ fun Route.tasks() {
 
     post("task/save") {
         val taskRequest = call.receive<TaskRequestDto>()
-        taskService.saveTask(taskRequest)
+        taskService.saveTask(taskRequest, me!!.id)
         call.respond(HttpStatusCode.Accepted)
     }
 
